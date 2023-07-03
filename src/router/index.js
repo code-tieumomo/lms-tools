@@ -23,36 +23,65 @@ const router = createRouter({
             component: () => import("../views/HomeView.vue"),
             meta: {
                 requiresAuth: true,
-                title: "Trang chủ"
+                title: "Trang chủ",
+                sidebarKey: "home"
             }
         },
         {
             path: "/classes",
-            name: "classes",
-            component: () => import("../views/ClassesView.vue"),
-            meta: {
-                requiresAuth: true,
-                title: "Lớp học"
-            }
+            children: [
+                {
+                    path: "",
+                    name: "classes",
+                    component: () => import("../views/ClassesView.vue"),
+                    meta: {
+                        requiresAuth: true,
+                        title: "Lớp học",
+                        sidebarKey: "classes"
+                    }
+                },
+                {
+                    path: ":id",
+                    children: [
+                        {
+                            path: "",
+                            name: "class",
+                            component: () => import("../views/ClassView.vue"),
+                            meta: {
+                                requiresAuth: true,
+                                title: "Lớp học",
+                                sidebarKey: "classes"
+                            },
+                            props: true
+                        },
+                        {
+                            path: ":slotId",
+                            name: "slot",
+                            component: () => import("../views/SlotView.vue"),
+                            meta: {
+                                requiresAuth: true,
+                                sidebarKey: "classes"
+                            },
+                            props: true
+                        }
+                    ]
+                }
+            ]
         },
         {
-            path: "/class/:id",
-            name: "class",
-            component: () => import("../views/ClassView.vue"),
-            meta: {
-                requiresAuth: true,
-                title: "Lớp học"
-            },
-            props: true
-        },
-        {
-            path: "/quick-review",
-            name: "quick-review",
-            component: () => import("../views/QuickReview.vue"),
-            meta: {
-                requiresAuth: true,
-                title: "Nhận xét nhanh"
-            }
+            path: "/courses",
+            children: [
+                {
+                    path: "",
+                    name: "courses",
+                    component: () => import("@/views/CoursesView.vue"),
+                    meta: {
+                        requiresAuth: true,
+                        title: "Khóa học",
+                        sidebarKey: "courses"
+                    }
+                }
+            ]
         }
     ]
 });
@@ -93,34 +122,6 @@ router.beforeEach(async function (to, from, next) {
             next();
         }
     }
-
-    // if (!reqAuth) {
-    //     if (to.name === "login") {
-    //         apiClientWithoutErrorHandling.get("/api/user").then((res) => {
-    //             store.auth.user = res.data;
-    //             store.auth.isAuthenticated = res.data !== null;
-    //             next({ name: "home" });
-    //         }).catch(() => {
-    //             next();
-    //         });
-    //     } else {
-    //         next();
-    //     }
-    // } else {
-    //     if (authUser) {
-    //         next();
-    //     } else {
-    //         store.fetchAuthenticatedUser().then(() => {
-    //             if (store.auth.isAuthenticated) {
-    //                 next();
-    //             } else {
-    //                 next(loginQuery);
-    //             }
-    //         }).catch(() => {
-    //             next(loginQuery);
-    //         });
-    //     }
-    // }
 });
 
 router.afterEach(function (to, from) {
@@ -136,7 +137,7 @@ router.afterEach(function (to, from) {
     }
 
     nextTick(() => {
-        document.title = `${to.meta.title ?? "Untitle"} - LMS Tools`;
+        document.title = to.meta.title ? `${to.meta.title} - Daily` : "Daily";
     });
 });
 

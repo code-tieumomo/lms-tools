@@ -2,7 +2,7 @@ import axios from "axios";
 import router from "../router";
 import { useCounterStore } from "../stores/counter";
 
-const baseurl = "http://api.lms-tools.io";
+const baseurl = "http://server.daily.io";
 
 axios.defaults.withCredentials = true;
 
@@ -14,8 +14,8 @@ const apiClient = axios.create({
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "Access-Control-Allow-Origin": "*",
-        crossDomain: true
-    }
+        crossDomain: true,
+    },
 });
 apiClient.interceptors.response.use(
     (response) => response,
@@ -23,7 +23,7 @@ apiClient.interceptors.response.use(
         if (error.response.status === 401 || error.response.status === 419) {
             const store = useCounterStore();
             store.logout().then(() => {
-                router.push({ name: "login" });
+                router.push({name: "login"});
             });
         }
 
@@ -39,8 +39,8 @@ const apiClientWithoutErrorHandling = axios.create({
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "Access-Control-Allow-Origin": "*",
-        crossDomain: true
-    }
+        crossDomain: true,
+    },
 });
 
 export { apiClient, apiClientWithoutErrorHandling };

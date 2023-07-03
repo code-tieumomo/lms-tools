@@ -1,43 +1,49 @@
 <template>
-    <img :src="imageSrc" alt="Class logo" class="object-cover">
+  <img :src="imageSrc" alt="Class logo" class="object-cover">
 </template>
 
 <script>
 export default {
-    name: "ClassLogo",
-    props: {
-        image: {
-            type: String,
-            required: true,
-            default: 'JS'
-        }
-    },
-    computed: {
-        imageSrc() {
-            switch (this.image) {
-                case "JSB":
-                case "JSA":
-                case "JSI":
-                case "1:1 JSA":
-                case "ONL-JSI":
-                case "ONL-JSA":
-                    return "https://img.icons8.com/color/100/null/javascript--v1.png";
+  name: "ClassLogo",
+  props: {
+    image: {
+      type: String,
+      required: true,
+      default: 'JS'
+    }
+  },
+  computed: {
+    imageSrc() {
+      switch (this.image) {
+        case "JSB":
+        case "JSA":
+        case "JSI":
+        case "1:1 JSA":
+        case "1:1 JSB":
+        case "ONL-JSI":
+        case "ONL-JSA":
+          return "https://cdn-icons-png.flaticon.com/512/5968/5968292.png";
 
-                case "C4K-MB":
-                case "C4K-MI":
-                case "C4K-MA":
-                    return "https://img.icons8.com/fluency/100/null/android-os.png";
+        case "C4K-MB":
+        case "C4K-MI":
+        case "C4K-MA":
+          return "https://cdn-icons-png.flaticon.com/512/2504/2504881.png";
 
-                case "C4K-GB":
-                    return "https://img.icons8.com/emoji/100/null/video-game-emoji.png";
+        case "C4K-GB":
+        case "C4K-GA":
+        case "ONL-C4K-GB":
+        case "C4K-GI":
+        case "ONL-C4K-GI":
+          return "https://cdn-icons-png.flaticon.com/512/141/141073.png";
 
-                case "ONL-CSB":
-                    return "https://img.icons8.com/color/48/null/python--v1.png";
+        case "ONL-CSB":
+        case "PTB":
+          return "https://cdn-icons-png.flaticon.com/512/5968/5968350.png";
 
-                default:
-                    return "https://img.icons8.com/color/48/null/source-code.png";
-            }
-        }
-    },
+        default:
+          return "https://cdn-icons-png.flaticon.com/512/4248/4248402.png";
+      }
+    }
+  },
 }
 </script>
