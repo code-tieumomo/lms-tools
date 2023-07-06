@@ -8,23 +8,6 @@
           alt="Logo"
         />
         quanph
-
-        <button @click="collapsed = !collapsed">Toggle Slide + Fade</button>
-        <Transition
-          name="fade"
-          appear
-          @before-enter="onBeforeEnter"
-          @enter="onEnter"
-          @after-enter="onAfterEnter"
-          @enter-cancelled="onEnterCancelled"
-          @before-leave="onBeforeLeave"
-          @leave="onLeave"
-          @after-leave="onAfterLeave"
-          @leave-cancelled="onLeaveCancelled"
-        >
-          <p v-if="collapsed">hello</p>
-          <div v-else>hellooo</div>
-        </Transition>
       </div>
       <div class="flex items-center gap-2">
         <div class="flex flex-col items-end">
@@ -109,7 +92,7 @@ export default {
           key: "logout"
         }
       ],
-      collapsed: false
+      collapsed: true
     };
   },
   computed: {
@@ -123,30 +106,6 @@ export default {
           this.$router.push({ name: "login" });
         });
       }
-    },
-    onBeforeEnter() {
-      console.log("before enter");
-    },
-    onEnter() {
-      console.log("enter");
-    },
-    onAfterEnter() {
-      console.log("after enter");
-    },
-    onBeforeLeave() {
-      console.log("before leave");
-    },
-    onLeave() {
-      console.log("leave");
-    },
-    onAfterLeave() {
-      console.log("after leave");
-    },
-    onLeaveCancelled() {
-      console.log("leave cancelled");
-    },
-    onEnterCancelled() {
-      console.log("enter cancelled");
     }
   },
   mounted() {

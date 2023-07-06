@@ -151,12 +151,12 @@
                 v-for="inClass in inClasses"
                 :key="inClass.id"
                 :to="{
-                              name: 'slot',
-                              params: {
-                                id: inClass.id,
-                                slotId: inClass.slots[inClass.currentSlot]._id,
-                              },
-                            }"
+                    name: 'slot',
+                    params: {
+                      id: inClass.id,
+                      slotId: inClass.slots[inClass.currentSlot]._id,
+                    },
+                  }"
                 class="border border-emerald-600 text-emerald-600 p-2 flex gap-2 items-center rounded"
               >
                 <ClassLogo
@@ -228,19 +228,19 @@ export default {
       );
     },
     fetchInClass() {
-      // apiClient
-      //   .get("/api/classes/in-class")
-      //   .then((res) => {
-      //     this.inClasses = res.data.data;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   })
-      //   .finally(() => {
-      setTimeout(() => {
-        this.isFetchingInClass = false;
-      }, 2000);
-      // });
+      apiClient
+        .get("/api/classes/in-class")
+        .then((res) => {
+          this.inClasses = res.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            this.isFetchingInClass = false;
+          }, 2000);
+        });
     }
   }
 };

@@ -5,6 +5,7 @@ import { useCounterStore } from "../stores/counter";
 const baseurl = "http://server.daily.io";
 
 axios.defaults.withCredentials = true;
+axios.defaults.timeout = 5 * 60 * 1000;
 
 // API client with error handling
 const apiClient = axios.create({
@@ -14,8 +15,9 @@ const apiClient = axios.create({
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "Access-Control-Allow-Origin": "*",
-        crossDomain: true,
+        crossDomain: true
     },
+    timeout: 300000
 });
 apiClient.interceptors.response.use(
     (response) => response,
@@ -23,7 +25,7 @@ apiClient.interceptors.response.use(
         if (error.response.status === 401 || error.response.status === 419) {
             const store = useCounterStore();
             store.logout().then(() => {
-                router.push({name: "login"});
+                router.push({ name: "login" });
             });
         }
 
@@ -39,8 +41,8 @@ const apiClientWithoutErrorHandling = axios.create({
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "Access-Control-Allow-Origin": "*",
-        crossDomain: true,
-    },
+        crossDomain: true
+    }
 });
 
 export { apiClient, apiClientWithoutErrorHandling };

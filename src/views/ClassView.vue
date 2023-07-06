@@ -4,23 +4,28 @@
       <Loading1></Loading1>
     </div>
     <div v-else>
-      <div class="flex items-center gap-4">
-        <ClassLogo
-          :image="mindXClass.course?.shortName"
-          class="w-12 h-12"
-        ></ClassLogo>
-        <h1 class="text-4xl">
-          {{ mindXClass.name }}
-        </h1>
-        <n-tag
-          size="small"
-          :bordered="false"
-          :type="mindXClass.status === 'FINISHED' ? 'error' : 'success'"
-        >
-          {{
-            mindXClass.status === "FINISHED" ? "Đã kết thúc" : "Đang hoạt động"
-          }}
-        </n-tag>
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-4">
+          <ClassLogo
+            :image="mindXClass.course?.shortName"
+            class="w-12 h-12"
+          ></ClassLogo>
+          <h1 class="text-4xl">
+            {{ mindXClass.name }}
+          </h1>
+          <n-tag
+            size="small"
+            :bordered="false"
+            :type="mindXClass.status === 'FINISHED' ? 'error' : 'success'"
+          >
+            {{
+              mindXClass.status === "FINISHED" ? "Đã kết thúc" : "Đang hoạt động"
+            }}
+          </n-tag>
+        </div>
+        <n-dropdown trigger="click" :options="options" @select="handleSelect">
+          <n-button type="primary">Thao tác nhanh</n-button>
+        </n-dropdown>
       </div>
 
       <div class="mt-8">
@@ -111,6 +116,18 @@
 
               <template #content>
                 <div class="flex flex-col gap-2 p-2">
+                  <div class="flex items-center gap-2 w-fit">
+                    <svg
+                      class="w-4 h-4 text-gray-400"
+                      fill="currentColor"
+                      viewBox="0 0 448 512"
+                    >
+                      <path
+                        d="M448 64c0-17.7-14.3-32-32-32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32zm0 256c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32zM0 192c0 17.7 14.3 32 32 32H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H32c-17.7 0-32 14.3-32 32zM448 448c0-17.7-14.3-32-32-32H32c-17.7 0-32 14.3-32 32s14.3 32 32 32H416c17.7 0 32-14.3 32-32z"
+                      />
+                    </svg>
+                    <span>{{ mindXClass.course?.id }}</span>
+                  </div>
                   <div class="flex items-center gap-2 w-fit">
                     <svg
                       class="w-4 h-4 text-gray-400"
@@ -292,14 +309,25 @@ export default {
   props: {
     id: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       isFetchingClass: true,
       mindXClass: {},
       moment: moment,
+      options: [
+        {
+          label: "Tạo checkpoint 1",
+          key: "create-checkpoint-1"
+        },
+        {
+          label: "Tạo checkpoint 2",
+          key: "create-checkpoint-2",
+          disabled: true
+        }
+      ]
     };
   },
   components: { Loading1, ClassLogo, Tippy },
@@ -320,6 +348,20 @@ export default {
         this.isFetchingClass = false;
       }
     },
-  },
+    handleSelect(key) {
+      switch (key) {
+        case "create-checkpoint-1":
+          apiClient.post("/api/create-checkpoint-1", {
+            classId: this.mindXClass.id
+          })
+            .then((res) => {
+              console.log(res.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+      }
+    }
+  }
 };
 </script>

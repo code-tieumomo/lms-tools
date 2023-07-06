@@ -82,6 +82,21 @@ const router = createRouter({
                     }
                 }
             ]
+        },
+        {
+            path: "/storages",
+            children: [
+                {
+                    path: "",
+                    name: "storages",
+                    component: () => import("@/views/StoragesView.vue"),
+                    meta: {
+                        requiresAuth: true,
+                        title: "Kho lưu trữ",
+                        sidebarKey: "storages"
+                    }
+                }
+            ]
         }
     ]
 });
